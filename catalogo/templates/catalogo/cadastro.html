@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load bootstrap5 %}
+{% block title %} Cadastro de Usuário{% endblock %}
+
+{% block content %}
+    <h1 style="text-align: center;">Cadastro de Usuário</h1>
+    <div class="container mt-5">
+        <form method="post" action="{% url 'cadastro' %}">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+            {% endif %}
+            <button type="submit" class="btn btn-primary btn-lg">Cadastrar</button>
+            <button type="reset" class="btn btn-secundary btn-lg" style="background-color: #858484;">Limpar</button>
+        </form>
+    </div>
+{% endblock %}
