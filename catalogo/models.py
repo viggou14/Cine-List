@@ -13,3 +13,13 @@ class Perfil(models.Model):
 
     def __str__(self):
         return f'Perfil de {self.user.username}. Seu tipo é {self.tipo_usuario}'
+
+class Filme(models.Model):
+    titulo = models.CharField(max_length=100, null=False)
+    genero = models.CharField(max_length=50, default='Sem Gênero', null=False)
+    ano_lancamento = models.IntegerField(null=False)
+    descricao = models.TextField(max_length=500, default='Sem Descrição')
+    diretor = models.CharField(max_length=100, null=False)
+
+    def __str__(self):
+        return self.titulo
