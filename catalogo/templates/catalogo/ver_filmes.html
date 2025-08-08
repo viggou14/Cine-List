@@ -1,9 +1,43 @@
-{% extends "base.html" %}
-{% load bootstrap5 %}
+{%extends 'base.html'%}
+{%load bootstrap5%}
 
-{% block title %} Ver filmes{% endblock %}
+{%block title%} Ver Filmes {%endblock%}
 
 {% block content %}
-<h1 style="text-align: center;">Ver filmes</h1>
-
-{% endblock %}
+<h1 style="text-align: center;">Ver Filmes</h1>
+<div class="container mt-5">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Poster</th>
+                <th>Título</th>
+                <th>Gênero</th>
+                <th>Ano de Lançamento</th>
+                <th>Descrição</th>
+                <th>Diretor</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for filme in filmes %}
+            <tr>
+                <td><img src={%if filme.imagem%} "{{filme.imagem.url}}" {%else%} "https://st3.depositphotos.com/3050385/17908/v/1600/depositphotos_179080780-stock-illustration-error-404-creative-illustration-dachshund.jpg" {%endif%}  style="width: 120px; height: 140px;" class="image-fluid"></td>
+                <td>{{ filme.titulo }}</td>
+                <td>{{ filme.get_genero_display }}</td>
+                <td>{{ filme.ano_lancamento }}</td>
+                <td>{{ filme.descricao }}</td>
+                <td>{{ filme.diretor }}</td>
+                {% if user.perfil.tipo_usuario == 'administrador' %}
+                <td><a href="{% url 'editar_filme' filme.id %}"><button class="btn btn-secundary btn-lg" style="background-color: #ff5252; margin-top: 5vh;">Editar</button></a></td>
+                <td><a href="{% url 'remover_filme' filme.id %}" class="btn btn-danger"onclick="return confirm('Tem certeza que deseja remover este filme?')" style="margin-top: 6vh; background-color: #ff5252; color:black ;">Remover</a></td>
+                {% else %}
+                <td><a href="{% url 'ver_filme' filme.id %}"><button class="btn btn-secundary btn-lg" style="background-color: #ff5252;margin-top: 5vh;">Ver</button></a></td>
+                {% endif %}
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" class="text-center">Nenhum filme encontrado.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{%endblock%}

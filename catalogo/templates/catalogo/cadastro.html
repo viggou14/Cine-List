@@ -8,8 +8,8 @@
         <form method="post" action="{% url 'cadastro' %}">
             {% csrf_token %}
             {% bootstrap_form form %}
-            <button type="submit" class="btn btn-secundary btn-lg" style="background-color: #868686;">Cadastrar</button>
-            <button type="reset" class="btn btn-secundary btn-lg" style="background-color: #868686;">Limpar</button>
+            <button type="submit" class="btn btn-secundary btn-lg" style="background-color: #ff5252;">Cadastrar</button>
+            <button type="reset" class="btn btn-secundary btn-lg" style="background-color: #000000; color: white;">Limpar</button>
         </form>
     </div>
 {% endblock %}

@@ -1,12 +1,13 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponseRedirect, Http404, HttpResponseForbidden
 from django.contrib import messages
-from .forms import CadastroForm, FilmeForm
+from .forms import CadastroForm, FilmeForm, EntryForm
 from django.contrib.auth.models import User
-from .models import Perfil, Filme
+from .models import Perfil, Filme, Entry
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login
-
+from django.contrib.auth.decorators import login_required
+from django.urls import reverse
 
 # Create your views here.
 
@@ -48,19 +49,48 @@ def cadastro(request):
 
     context = {'form': form}
     return render(request, 'catalogo/cadastro.html', context)
-
+@login_required
 def ver_filmes(request):
     filmes = Filme.objects.all()
     context = {'filmes': filmes}
     return render(request, 'catalogo/ver_filmes.html', context)
+@login_required
 def adicionar_filme(request):
     if request.method != 'POST':
         form = FilmeForm()
     else:
-        form = FilmeForm(request.POST)
+        form = FilmeForm(request.POST, request.FILES)
+        if form.is_valid() and request.user.perfil.tipo_usuario =="administrador":
+            form.save()
+            return redirect('ver_filmes')
+    
+    context = {'form': form}
+    return render(request, 'catalogo/adicionar_filme.html', context)
+@login_required
+def editar_filme(request, filme_id):
+    filme = get_object_or_404(Filme, id=filme_id)
+
+    if request.method == 'POST':
+        form = FilmeForm(request.POST, instance=filme)
         if form.is_valid():
             form.save()
-            redirect('ver_filmes')
+            return redirect('ver_filmes')
+    else:
+        form = FilmeForm(instance=filme)
+    context = {'form': form, 'filme': filme}
 
-        context = {'form': form}
-    return render(request, 'catalogo/adicionar_filme.html', context)
+    return render(request, 'catalogo/editar_filme.html', context)
+
+def remover_filme(request, filme_id):
+    filme = get_object_or_404(Filme, id=filme_id)
+    filme.delete()
+    return redirect('ver_filmes')
+
+def ver_filme(request, filme_id):
+    # Verifica se o usuário está autenticado e é comum
+    if not request.user.is_authenticated or request.user.is_staff or request.user.is_superuser:
+        return HttpResponseForbidden("Acesso negado.")
+
+    filme = get_object_or_404(Filme, id=filme_id)
+    context = {'filme': filme}
+    return render(request, 'catalogo/ver_filme.html', context)

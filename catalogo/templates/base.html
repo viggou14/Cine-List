@@ -9,31 +9,49 @@
     {% bootstrap_javascript %}
 </head>
 
-<body>
+<body {%block corbody%} {%endblock%}>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <div style="display: flex; gap: 2vw; margin-right: 3vw;">
-            <a class="navbar-brand" style="margin-left: 3vw ;" href="{% url 'home' %}">Cine List</a>
-                {% if user.is_authenticated %}
-                <p style="color: white; margin-top: 1vh;">Olá, {{user.username}}! Sua conta é {{user.perfil.tipo_usuario}}</p>
-                {% endif %}
-            </div>
-            <!-- Botões de Menu -->
-            {% if user.is_authenticated %}
-                <div style="display: flex; gap: 2vw; margin-right: 3vw;">
-                    {% if user.perfil.tipo_usuario == 'administrador' %}
-                    <a class="btn btn-secundary btn-lg " style="background-color: #ff5252;" href="{% url 'adicionar_filme' %}">Adicionar filme</a>
-                    {% endif %}
-                    <a class="btn btn-secundary btn-lg " style="background-color: #ff5252;" href="{% url 'ver_filmes' %}">Ver filmes</a>
-                    <a class="btn btn-danger btn-lg" style="background-color: #ff5252;" href="{% url 'logout' %}">Logout</a>
-                </div>
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{% url 'home' %}"><h1>Cine List |</h1></a>
 
-            {% else %}
-            <div style="display: flex; gap: 2vw; margin-right: 3vw;">
-                <a class="btn btn-secundary btn-lg" href="{% url 'login_view' %}" style="background-color: #ff5252;">Login</a>
-                <a class="btn btn-secundary btn-lg" href="{% url 'cadastro' %}" style="background-color: #ff5252;">Cadastro</a>
-            </div>
-            {% endif %}
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarConteudo">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarConteudo">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          {% if user.is_authenticated %}
+          <p style="color: white; margin-top: 2vh;">Olá, {{user.username}}! Sua conta é {{user.perfil.tipo_usuario}}</p>
+          {% endif %}
+      </ul>
+      </div>
+      <!-- Botões de Menu -->
+      {% if user.is_authenticated %}
+      <div style="display: flex; gap: 2vw; margin-right: 3vw;">
+          {% if user.perfil.tipo_usuario == 'administrador' %}
+          <a class="btn btn-secundary btn-lg " style="background-color: #ff5252;" href="{% url 'adicionar_filme' %}">Adicionar filme</a>
+          {% endif %}
+          <a class="btn btn-secundary btn-lg " style="background-color: #ff5252;" href="{% url 'ver_filmes' %}">Ver Filmes</a>
+          <a class="btn btn-danger btn-lg" style="background-color: #ff5252; color: #000000;" href="{% url 'logout' %}">Logout</a>
+      </div>
+      
+      {% else %}
+      <div style="display: flex; gap: 2vw; margin-right: 3vw;">
+      <a class="btn btn-secundary btn-lg" href="{% url 'login_view' %}" style="background-color: #ff5252;">Login</a>
+      <a class="btn btn-secundary btn-lg" href="{% url 'cadastro' %}" style="background-color: #ff5252;">Cadastro</a>
+      </div>
+      {% endif %}
+
+      {% if request.resolver_match.url_name == 'ver_filmes' %}
+      <form class="d-flex" method="GET" action="">
+        <input class="form-control me-2" type="search" placeholder="Buscar" name="q">
+        <button class="btn btn-outline-light" type="submit">Pesquisar</button>
+      </form>
+      {% endif %}
+    </div>
+  </div>
+</nav>
+
 
         </div>
     </nav>

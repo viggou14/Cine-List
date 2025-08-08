@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import Perfil, TIPOS_USUARIO, Filme
+from .models import Perfil, TIPOS_USUARIO, Filme, Entry
 
 class CadastroForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput, label='Senha')
@@ -18,5 +18,11 @@ class CadastroForm(forms.ModelForm):
 class FilmeForm(forms.ModelForm):
     class Meta:
         model = Filme
-        fields = ['titulo', 'genero', 'ano_lancamento', 'descricao', 'diretor']
+        fields = ['titulo', 'genero', 'ano_lancamento', 'descricao', 'diretor', 'imagem']
         
+class EntryForm(forms.ModelForm):
+    class Meta:
+        model = Entry
+        fields = ['text']
+        labels = {'text': ''}
+        widget = {'text': forms.Textarea(attrs={'cols': 80})}

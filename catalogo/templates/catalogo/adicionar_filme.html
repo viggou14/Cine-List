@@ -1,16 +1,58 @@
 {% extends "base.html" %}
 {% load bootstrap5 %}
 
-{% block title %} Adicionar Filme{% endblock %}
+{%block corbody%}
+
+style="background-color:#ff5252"
+
+{%endblock%}
 
 {% block content %}
-<h1 style="text-align: center;">Adicionar Filme</h1>
+<body>
 
-    
-    <div class="container mt-5">
-        <form method="post" style="display: flex; align-items: center; justify-content: center; flex-direction: column;"action="{% url 'adicionar_filme' %}">
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Cadastrar Filme</h1>
+
+    <div class="card p-4 " style="background-color: black; color: white;">
+        <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
-            {% bootstrap_form form %}
-            <button type="submit" class="btn btn-secundary btn-lg" style="background-color: #ff5252;">Cadastrar Filme</button>
+            
+            <!-- Renderiza todos os campos, exceto imagem -->
+            {% bootstrap_form form exclude="imagem" %}
+            
+            <!-- Campo de imagem separado -->
+            <div class="mb-3">
+                <label for="id_imagem" class="form-label">Imagem do Filme</label>
+                {{ form.imagem }}
+                <img id="preview" class="img-thumbnail" style="display: none;">
+            </div>
+                <button class="btn btn-secundary btn-lg" style="background-color: #ff5252;">Salvar</button>
+        </form>
     </div>
+</div>
+
+{% bootstrap_javascript %}
+
+<script>
+    const fileInput = document.getElementById('id_imagem');
+    const preview = document.getElementById('preview');
+
+    fileInput.addEventListener('change', function () {
+        const file = this.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            }
+            reader.readAsDataURL(file);
+        } else {
+            preview.style.display = 'none';
+            preview.src = '';
+        }
+    });
+</script>
 {% endblock %}
+</body>
+</html>
