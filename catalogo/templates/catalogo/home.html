@@ -4,9 +4,94 @@
 {% block title %}Página inicial{% endblock %}
 
 {% block content %}
-<blockquote class="blockquote text-left">
-  <h1 style="color: #000000; text-align: center;" >Bem vindo 🎉</h1>
-  <p style="color: black; text-align: center;">Seu catálogo de filmes e séries favoritos🔥</p>
-</blockquote>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #121212;
+            color: #fff;
+        }
+
+        header {
+            background-color: #1e1e1e;
+            padding: 15px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+        }
+
+        header h1 {
+            font-size: 26px;
+            font-weight: bold;
+            color: #ff5252;
+        }
+
+        nav button {
+            background-color: #ff5252;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            margin-left: 10px;
+            border-radius: 6px;
+            font-size: 15px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        nav button:hover {
+            background-color: #e04040;
+        }
+
+        main {
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        main h2 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .sub {
+            font-size: 18px;
+            color: #bbb;
+            margin-bottom: 40px;
+        }
+
+        .banner {
+            background: url('https://images.unsplash.com/photo-1524985069026-dd778a71c7b4') no-repeat center/cover;
+            border-radius: 12px;
+            padding: 80px 20px;
+            color: white;
+            max-width: 900px;
+            margin: auto;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+        }
+
+        .banner h3 {
+            font-size: 28px;
+        }
+
+        .banner p {
+            font-size: 16px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <main>
+        <h2>Bem-vindo 🎉</h2>
+        <p class="sub">Seu catálogo de filmes e séries favoritos 🔥</p>
+
+        <div class="banner">
+            <h3>Explore o melhor do cinema</h3>
+            <p>Adicione seus filmes e séries favoritos e nunca perca o que você ama assistir!</p>
+        </div>
+    </main>
+
+
 {% endblock %}
   

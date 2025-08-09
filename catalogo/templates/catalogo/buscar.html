@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load bootstrap5 %}
+
+{% block content %}
+<form method="GET" action="{% url 'ver_filmes' %}">
+    <input type="text" name="q" placeholder="Buscar" value="{{ request.GET.q }}">
+    <button type="submit">Pesquisar</button>
+</form>
+
+{% endblock %}

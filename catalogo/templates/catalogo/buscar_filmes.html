@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load bootstrap5 %}
+
+{% block content %}
+<form method="GET" action="{% url 'buscar_filmes' %}">
+    <input type="text" name="q" placeholder="Buscar filme" value="{{ query }}">
+    <button type="submit">Pesquisar</button>
+</form>
+
+{% if filmes %}
+    <ul>
+        {% for entry in filmes %}
+            <li>{{ entry.filme.titulo }}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Nenhum filme encontrado.</p>
+{% endif %}
+{% endblock %}
+  

@@ -94,3 +94,11 @@ def ver_filme(request, filme_id):
     filme = get_object_or_404(Filme, id=filme_id)
     context = {'filme': filme}
     return render(request, 'catalogo/ver_filme.html', context)
+
+def buscar_filmes(request):
+    query = request.GET.get('q', '').strip()
+    filmes = []
+    if query:
+        filmes = Entry.objects.filter(filme__titulo__icontains=query)
+
+    return render(request, 'buscar_filmes.html', {'filmes': filmes, 'query': query})
